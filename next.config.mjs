@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     images: {
-        domains: ["zpl.io"]
+        domains: ["springchat-user-uploads.s3.eu-west-1.amazonaws.com"]
       },
    
 };

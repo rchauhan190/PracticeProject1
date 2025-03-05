@@ -3,27 +3,18 @@ import { useState, useEffect } from "react";
 import TextField from "@mui/material/TextField";
 import FormLabel from "@mui/material/FormLabel";
 import FormControl from "@mui/material/FormControl";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
+import Link from "@mui/material/Link";
 import axios from "axios";
 import Image from "next/image";
 import user from "../../../public/user.jpg";
 import EditIcon from "@mui/icons-material/Edit";
 import IconButton from "@mui/material/IconButton";
 
-
 export default function ProfileUi() {
   const [profile, setProfile] = useState("");
-  const [updateProfile, setUpdateProfile] = useState({
-    fullName: "",
-    email: "",
-    phoneNumber: "",
-    fatherName: "",
-    address: "",
-  });
-  
-  const [showUpdateButton, setShowUpdateButton] = useState(false);
+  const [profileImage, setProfileImage] = useState(user);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -38,36 +29,12 @@ export default function ProfileUi() {
         setProfile(response.data.data);
       })
       .catch((error) => console.log("error", error));
+
+    const savedImage = localStorage.getItem("profileImage");
+    if (savedImage) {
+      setProfileImage(savedImage);
+    }
   }, []);
-
-  const handleEditClick = () => {
-    setShowUpdateButton(true);
-  };
-
-  const handleChange = (e) => {
-    setUpdateProfile({ ...updateProfile, [e.target.name]: e.target.value });
-  };
-  const handleUpdateProfile = async () => {
-    const token = localStorage.getItem("token");
-  
-      const response = await axios.put("https://api.staging.springprod.com/auth/v1/manager/profile",
-      updateProfile,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      )
-      .then((response)=>{
-        console.log("Update response:", response);
-      alert("Profile updated successfully!");
-
-      })
-    
-    
-   
-  };
 
   return (
     <Box
@@ -100,19 +67,23 @@ export default function ProfileUi() {
           sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}
         >
           <Image
-            src={user}
+            src={typeof profileImage === "string" ? profileImage : user}
             alt="user"
             width={130}
             height={130}
             style={{ borderRadius: "65px", border: "2px solid white" }}
+            unoptimized
           />
-          <Typography variant="h5" sx={{ margin: "10px", color: "#fff" }}>
+
+          <Typography variant="h5" sx={{ color:"#000",margin: "10px", color: "#fff" }}>
             {profile.fullName}
           </Typography>
         </Box>
-        <IconButton onClick={handleEditClick} sx={{ color: "#fff", marginLeft: "10px" }}>
-          <EditIcon />
-        </IconButton>  
+        <Link href="/edit-profile">
+          <IconButton sx={{ color: "#fff", marginLeft: "10px" }}>
+            <EditIcon />
+          </IconButton>
+        </Link>
       </Box>
       <Box
         sx={{
@@ -143,8 +114,6 @@ export default function ProfileUi() {
               required
               fullWidth
               placeholder={profile.fullName}
-              onChange={handleChange}
-           
             />
           </FormControl>
           <FormControl>
@@ -154,7 +123,6 @@ export default function ProfileUi() {
               fullWidth
               placeholder={profile.email}
               name="email"
-              onChange={handleChange}
             />
           </FormControl>
           <FormControl>
@@ -164,7 +132,6 @@ export default function ProfileUi() {
               required
               fullWidth
               placeholder={profile.phoneNumber}
-              onChange={handleChange}
             />
           </FormControl>
           <FormControl>
@@ -174,7 +141,6 @@ export default function ProfileUi() {
               fullWidth
               name="fathername"
               placeholder="some one "
-              onChange={handleChange}
             />
           </FormControl>
           <FormControl>
@@ -183,8 +149,6 @@ export default function ProfileUi() {
               required
               fullWidth
               placeholder={profile.countryName}
-              
-              onChange={handleChange}
               name="address"
             />
           </FormControl>
@@ -197,10 +161,9 @@ export default function ProfileUi() {
           margin: "14px",
           padding: "32px",
           boxShadow: "10px 10px 20px rgba(0, 0, 0, 0.2)",
-          
         }}
       >
-        <Typography variant="h5" >Institute details</Typography>
+        <Typography variant="h5">Institute details</Typography>
 
         <Box
           component="form"
@@ -241,16 +204,6 @@ export default function ProfileUi() {
           </FormControl>
         </Box>
       </Box>
-      {showUpdateButton && <Box  sx={{ display: "flex", flexDirection: "row-reverse" }}>
-        <Button
-          type="update"
-          sx={{ backgroundColor: "#2b5bc7", color: "#fff", width: "150px" }}
-          onClick={handleUpdateProfile}
-        >
-          update
-        </Button>
-        <Button onClick={()=>setShowUpdateButton(false)} type="cancel">cancel</Button>
-      </Box>}
     </Box>
   );
 }

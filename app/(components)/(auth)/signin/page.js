@@ -1,11 +1,10 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
-import Signin from "../../card/Signin"
-
+import Signin from "../../card/Signin"; 
 export default function SignInPage() {
   return (
     <Box sx={{ position: "relative" }}>
-      <Box sx={{display:"flex", justifyContent:"space-between"}}>
+      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
         <Box
           sx={{
             width: 150,
@@ -19,29 +18,28 @@ export default function SignInPage() {
             display: "flex",
             flexDirection: "row",
             justifyContent: "space-between",
-            position:"relative",
-            left:"-65px",
-            top:"-60px"
+            position: "relative",
+            left: "-65px",
+            top: "-60px",
           }}
         ></Box>
-      
-      <Box
-        sx={{
-          width: 600,
-          height: 600,
-          borderRadius: "600px",
-          bgcolor: "#2b5bc7",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          position:"relative",
-          left:"170px",
-          top:"-50px"
-        }}
-        ></Box>
-        </Box>
-        <Box sx={{display:"flex"}}>
 
+        <Box
+          sx={{
+            width: 600,
+            height: 600,
+            borderRadius: "600px",
+            bgcolor: "#2b5bc7",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            position: "relative",
+            left: "170px",
+            top: "-50px",
+          }}
+        ></Box>
+      </Box>
+      <Box sx={{ display: "flex" }}>
         <Box
           sx={{
             width: 500,
@@ -55,17 +53,14 @@ export default function SignInPage() {
             display: "flex",
             flexDirection: "row",
             justifyContent: "space-between",
-            position:"relative",
-            left:"-175px",
-            top:"60px"
-            
-            
-            
+            position: "relative",
+            left: "-175px",
+            top: "60px",
           }}
-          ></Box>
-          </Box>
+        ></Box>
+      </Box>
 
-      <Signin/>
+      <Signin />
     </Box>
   );
 }

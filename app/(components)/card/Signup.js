@@ -42,6 +42,7 @@ export default function Signupp() {
         inputData
       );
       console.log("api response", response.data);
+      
     } catch (err) {
       console.log("api  error", err);
     }

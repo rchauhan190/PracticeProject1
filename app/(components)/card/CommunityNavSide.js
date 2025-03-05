@@ -1,6 +1,6 @@
 import React from "react";
 import Box from "@mui/material/Box";
-import { IconButton,Link } from "@mui/material";
+import { IconButton,Link,Typography,Divider} from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import FeedIcon from "@mui/icons-material/Feed";
@@ -13,7 +13,7 @@ function NavSide() {
       <Box
         sx={{
           backgroundColor: "#ffffff",
-          width: "6vw",
+          width: "15vw",
           height: "85vh",
           borderRadius: "25px",
           margin: "20px",
@@ -39,16 +39,29 @@ function NavSide() {
           }}
         > <IconButton component={Link} href="/">
           <HomeIcon />
+          
+      <Typography>Home</Typography>
       </IconButton>
+ 
     
           <IconButton component={Link} href="/consumers">
             <AssignmentIcon />
+            <Typography>Test</Typography>
           </IconButton>
-          <IconButton component={Link} href="/community">
+    
+          <IconButton component={Link} href="/consumers">
+          <SpaSharpIcon/>
            
-          <SpaSharpIcon />
+            <Typography>Community Forum </Typography>
           </IconButton>
+     
+          <IconButton component={Link} href="/consumers">
+        
           <FeedIcon />
+           
+            <Typography>Exam series </Typography>
+          </IconButton>
+        
         </Box>
         <Box sx={{ backgroundColor: "#87CDF6", borderRadius: "14px" }}>
           <KeyboardDoubleArrowRightIcon />

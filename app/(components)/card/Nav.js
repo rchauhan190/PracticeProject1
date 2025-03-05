@@ -7,11 +7,13 @@ import logo from "../../../public/logo.png";
 import user from "../../../public/user.jpg";
 import axios from "axios" 
 import DropDown from "./DropDown"
+import Link from "next/link"
 
 
 
 export default function Nav() {
   const [profile,setProfile] = useState("");
+    const [profileImage, setProfileImage] = useState(user);
 
   useEffect(()=>{
       const token = localStorage.getItem('token');
@@ -26,6 +28,10 @@ export default function Nav() {
           setProfile(response.data.data)
       })   
       .catch((error)=>console.log("error",error))
+      const savedImage = localStorage.getItem("profileImage");
+    if (savedImage) {
+      setProfileImage(savedImage);
+    }
   },[])
 ;
 
@@ -46,24 +52,34 @@ export default function Nav() {
           padding: "10px 40px",
         }}
       >
-        <Image src={logo} alt="wizcle" width={200} height={50} />
+      
+      <Image 
+        src={logo} 
+        alt="wizcle" 
+        width={200} 
+        height={50} 
+        style={{ cursor: "pointer" }} 
+      />
         <Box
           sx={{
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
           }}
-        >
+          >
           <Typography sx={{ color: "#000000", margin: "10px" }}>
+          <Link href="/profile" passHref>
             Hello {profile.fullName}
+          </Link>
           </Typography>
-          <Image
-            src={user}
-            alt="user"
-            width={40}
-            height={40}
-            style={{ borderRadius: "20px" }}
-          />
+       <Image
+                  src={typeof profileImage === "string" ? profileImage : user}
+                  alt="user"
+                  width={40}
+                  height={40}
+                  style={{ borderRadius: "65px", border: "2px solid white" }}
+                  unoptimized
+                />
         
           <DropDown/>
        
