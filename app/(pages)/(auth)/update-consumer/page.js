@@ -18,8 +18,15 @@ export default function UpdateConsumer() {
     webSdkUrl: "",
   });
 
+
+
  useEffect(() => {
      const token = localStorage.getItem("token");
+     if(!token){
+       cosole.log("token  not recieved")
+       return;
+
+     }
 
      const fetConsumersData = 
      axios
