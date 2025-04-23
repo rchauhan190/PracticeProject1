@@ -3,6 +3,7 @@ import { Box, Button, Container, TextField, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import axios from "axios";
+import { updateCompetitions } from "../../../../Services/competitions/competitionService";
 
 export default function UpdateCompetition() {
   const router = useRouter();
@@ -14,8 +15,6 @@ export default function UpdateCompetition() {
     spCompetitionId: "",
     competitionType: "",
     // updatedAt:"",
-    
-
   });
 
   useEffect(() => {
@@ -40,9 +39,7 @@ export default function UpdateCompetition() {
             headers: { Authorization: `Bearer ${token}` },
           }
         );
-        console.log("Fetched response", response
-
-        );
+        console.log("Fetched response", response);
         setCompetitionData(response.data.data || response.data);
       } catch (error) {
         console.error("Error fetching competition:", error);
@@ -60,45 +57,44 @@ export default function UpdateCompetition() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const token = localStorage.getItem("token");
-  
+
     if (!token) {
       alert("Unauthorized! Please log in.");
-      router.push("/login");
       return;
     }
-  
-   
-    const { knownName,country,countryCode,updatedAt,isDeleted,deletedAt,competitionId,lmLogo,dmLogo,lmColor,dmColor,createdAt, ...onlySendData } = competitionData;
 
-    
-  
+    const {
+      knownName,
+      country,
+      countryCode,
+      updatedAt,
+      isDeleted,
+      deletedAt,
+      lmLogo,
+      dmLogo,
+      lmColor,
+      dmColor,
+      createdAt,
+      competitionId,
+      ...onlySendData
+    } = competitionData;
 
-  
-  
-  
+    console.log("Submitting update:", competitionId, onlySendData);
+
     try {
-      const response = await axios.put(
-        `https://api.staging.springprod.com/core/v1/competitions/${competitionId}`,
+      const response = await updateCompetitions(
+        competitionId,
         onlySendData,
-       
-        
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
+        token
       );
-  
-      console.log("Update response", response);
+      console.log("Update success:", response);
       alert("Competition updated successfully!");
       router.push("/competitions");
     } catch (error) {
-      console.error("Error updating competition:", error);
+      console.error("Update failed:", error?.response?.data || error);
       alert("Failed to update competition.");
     }
   };
-  ;
 
   return (
     <Container>
@@ -116,58 +112,55 @@ export default function UpdateCompetition() {
           Update Competition
         </Typography>
         <form onSubmit={handleSubmit}>
-
-
-        <TextField
+          <TextField
             fullWidth
             label="Competition Id"
             name="spCompetitionId"
-            value={competitionData.spCompetitionId||""}
+            value={competitionData.spCompetitionId || ""}
             onChange={handleChange}
             margin="normal"
             required
-            variant="outlined" 
+            variant="outlined"
             InputLabelProps={{
-              shrink: true, 
+              shrink: true,
             }}
             InputProps={{
-              readOnly: true, 
+              readOnly: true,
             }}
           />
-        
-        <TextField
-  fullWidth
-  label="Competition Name"
-  name="name"
-  value={competitionData.name || ""}
-  onChange={handleChange}
-  margin="normal"
-  required
-  variant="outlined"
-  InputLabelProps={{
-    shrink: true,
-  }}
-  disabled={false} 
-/>
 
-       
-<TextField
-  fullWidth
-  label="Competition Type"
-  name="competitionType"
-  value={competitionData.competitionType||""}
-  onChange={handleChange}
-  margin="normal"
-  required
-  variant="outlined" 
-  InputLabelProps={{
-    shrink: true, 
-  }}
-  InputProps={{
-    readOnly: true, 
-  }}
-/>
-{/* <TextField
+          <TextField
+            fullWidth
+            label="Competition Name"
+            name="name"
+            value={competitionData.name || ""}
+            onChange={handleChange}
+            margin="normal"
+            required
+            variant="outlined"
+            InputLabelProps={{
+              shrink: true,
+            }}
+            disabled={false}
+          />
+
+          <TextField
+            fullWidth
+            label="Competition Type"
+            name="competitionType"
+            value={competitionData.competitionType || ""}
+            onChange={handleChange}
+            margin="normal"
+            required
+            variant="outlined"
+            InputLabelProps={{
+              shrink: true,
+            }}
+            InputProps={{
+              readOnly: true,
+            }}
+          />
+          {/* <TextField
   fullWidth
   label="Update Date"
   name="updatedAt"
@@ -181,11 +174,6 @@ export default function UpdateCompetition() {
     shrink: true, 
   }}
 /> */}
-
-        
-
-         
-
 
           <Button type="submit" variant="contained" color="primary" fullWidth>
             Update Competition

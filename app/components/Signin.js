@@ -22,6 +22,7 @@ export default function Signin() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    console.log(event)
 
     if (!validateInputs()) {
       return;

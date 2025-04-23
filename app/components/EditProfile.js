@@ -7,10 +7,10 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import axios from "axios";
 import Image from "next/image";
-import defaultImage from "../../../public/user.jpg";
+import defaultImage from "../../public/user.jpg";
 
 export default function EditProfile() {
-  const [profile, setProfile] = useState({});
+  // const [profile, setProfile] = useState({});
   const [image, setImage] = useState(defaultImage);
   const [file, setFile] = useState(null);
   const [updateProfile, setUpdateProfile] = useState({
@@ -29,7 +29,7 @@ export default function EditProfile() {
       })
       .then((response) => {
         console.log("Profile Data:", response.data.data);
-        setProfile(response.data.data);
+        
         setUpdateProfile({
           fullName: response.data.data.fullName || "",
           email: response.data.data.email || "",
@@ -78,7 +78,7 @@ export default function EditProfile() {
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      setProfile(updatedProfile.data.data);
+      setUpdateProfile(updatedProfile.data.data);
     } catch (error) {
       console.error("Error updating profile:", error);
       alert("Failed to update profile. Please try again.");

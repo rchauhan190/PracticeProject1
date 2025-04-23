@@ -8,8 +8,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import axios from "axios";
-
+import {addConsumer} from "../../../../Services/consumers/consumerService"
 export default function AddConsumer() {
   const router = useRouter();
 
@@ -31,22 +30,13 @@ export default function AddConsumer() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem("token");
-
-   
-      const response =  await axios.post(
-        "https://api.staging.springprod.com/auth/v1/consumer/",
-        consumerData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      console.log("add reponse",response)
-
-      alert("Consumer added successfully!");
-      router.push("/consumers");
+    try {
+      const result = await addConsumer(consumerData, token);
+      console.log("Consumer added:", result);
+      router.push("/consumers"); 
+    } catch (error) {
+      console.error("Error adding consumer:", error);
+    }
     
   };
 

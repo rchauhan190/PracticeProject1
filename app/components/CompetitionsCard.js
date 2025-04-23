@@ -26,6 +26,7 @@ import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import ListIcon from "@mui/icons-material/List";
 import { useRouter } from "next/navigation";
 import AddIcon from "@mui/icons-material/Add";
+import {getCompetition} from "../../Services/competitions/competitionService";
 
 export default function CompetitionsCard() {
   const [data, setData] = useState([]);
@@ -39,17 +40,16 @@ export default function CompetitionsCard() {
   const itemsPerPage = 5;
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    axios
-      .get("https://api.staging.springprod.com/core/v1/competitions/", {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then((response) => {
-        console.log(response.data.data);
+    (async () => {
+      const token = localStorage.getItem("token");
+      try {
+        const response = await getCompetition(token);
+        console.log("Competitions:", response.data.data);
         setData(response.data.data);
-      })
-
-      .catch((error) => console.log("Error fetching", error));
+      } catch (error) {
+        console.error("Error fetching competitions:", error);
+      }
+    })();
   }, []);
 
   const handleCompetitionDelete = async (competitionId) => {

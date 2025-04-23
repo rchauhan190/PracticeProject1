@@ -26,6 +26,7 @@ import { useEffect, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import {getConsumer} from "../../Services/consumers/consumerService"
 
 export default function Consumers() {
   const [data, setData] = useState([]);
@@ -38,20 +39,22 @@ export default function Consumers() {
   const [page, setPage] = useState(1);
   const rowsPerPage = 5;
 
+
   useEffect(() => {
     const token = localStorage.getItem("token");
-    axios
-      .get("https://api.staging.springprod.com/auth/v1/consumer/", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((response) => {
-        console.log(response.data.data);
+  
+    (async () => {
+      try {
+        const response = await getConsumer(token);
+        console.log("response", response.data.data);
         setData(response.data.data);
-      })
-      .catch((error) => console.error("Error fetching consumers:", error));
+      } catch (error) {
+        console.error("Error fetching consumers:", error);
+      }
+    })()
   }, []);
+  
+  
 
   const handleConsumerDelete = async (consumerId) => {
     if (!window.confirm("Are you sure you want to delete this consumer?")) {

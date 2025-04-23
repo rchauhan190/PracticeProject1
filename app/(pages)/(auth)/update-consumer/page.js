@@ -20,29 +20,48 @@ export default function UpdateConsumer() {
 
 
 
- useEffect(() => {
-     const token = localStorage.getItem("token");
-     if(!token){
-       cosole.log("token  not recieved")
-       return;
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+  
+    if (!token) {
+      console.log("Token not received");
+      return;
+    }
+  
+    if (!consumerId) {
+      alert("No consumer ID provided!");
+      router.push("/consumers");
+      return;
+    }
 
-     }
+    console.log("Token:", token);
+console.log("Consumer ID:", consumerId);
 
-     const fetConsumersData = 
-     axios
-       .get(`https://api.staging.springprod.com/auth/v1/consumer/${consumerId}`, {
-         headers: {
-           Authorization: `Bearer ${token}`,
-         },
-       })
-       .then((response) => {
-         console.log(response.data.data);
-         setData(response.data.data);
-       })
-       .catch((error) => console.error("Error fetching consumers:", error));
-
-       fetConsumersData
-   }, [consumerId,router]);
+  
+    const fetchConsumerData = async () => {
+      try {
+        const response = await axios.get(
+          `https://api.staging.springprod.com/auth/v1/consumer/${consumerId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        console.log(response.data.data);
+        setConsumerData(response.data.data);
+      } catch (error) {
+        console.error("Error fetching consumer:", {
+        
+        });
+        alert("Failed to fetch consumer data.");
+      }
+    };
+  
+    fetchConsumerData();
+  }, [consumerId, router]);
+  
 
   const handleChange = (event) => {
     setConsumerData({
