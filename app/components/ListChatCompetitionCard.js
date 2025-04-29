@@ -151,6 +151,11 @@ export default function ListChatCompetitionsCard() {
           alignItems: "center",
           justifyContent: "center",
           padding: isMobile ? "8px" : isTablet ? "12px" : "15px",
+          transition: "transform 0.2s ease, box-shadow 0.2s ease",
+          "&:hover": {
+            boxShadow: 6,
+            transform: "translateY(-4px)",
+          },
         }}
       >
         <CardMedia

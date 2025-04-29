@@ -146,6 +146,11 @@ export default function ListSportsCompetitionsCard() {
           width: "80%",
           height: isMobile ? 180 : isTablet ? 200 : 200,
           borderRadius: "15px",
+          transition: "transform 0.2s ease, box-shadow 0.2s ease",
+          "&:hover": {
+            boxShadow: 6, 
+            transform: "translateY(-4px)",
+          },
         }}
       >
         <CardMedia
