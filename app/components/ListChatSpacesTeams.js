@@ -151,6 +151,11 @@ export default function ListChatSpacesTeamCard() {
           alignItems: "center",
           justifyContent: "start",
           p: 1,
+          transition: "transform 0.2s ease, box-shadow 0.2s ease",
+          "&:hover": {
+            boxShadow: 6,
+            transform: "translateY(-4px)",
+          },
         }}
       >
         <CardMedia
