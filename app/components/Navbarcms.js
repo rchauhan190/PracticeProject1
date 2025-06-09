@@ -11,12 +11,20 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import PersonIcon from "@mui/icons-material/Person";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LightModeIcon from "@mui/icons-material/LightMode";
+import ChatIcon from '@mui/icons-material/Chat';
+import { useRouter } from 'next/navigation';
+
 
 export default function Navbarcms() {
   const theme = useTheme();
   const { mode, toggleTheme } = useContext(ThemeContext);
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const isTablet = useMediaQuery(theme.breakpoints.between("sm", "md"));
+  const router = useRouter()
+
+  const handleClick = ()=>{
+    router.push("/chats")
+  }
 
   return (
     <Box
@@ -50,14 +58,17 @@ export default function Navbarcms() {
         <Box
           sx={{
             display: "flex",
-            gap: { xs: 2, sm: 3, md: 4 },
+            gap: { xs: 2, sm: 3, md: 2 },
+            
             alignItems: "center",
           }}
         >
          
           
-        
-          <IconButton onClick={toggleTheme} >
+         <IconButton  onClick={handleClick} aria-label="Go to chat">
+      <ChatIcon  />
+    </IconButton>
+          <IconButton sx={{py:"-10px"}} onClick={toggleTheme} >
             {mode === "light" ? <DarkModeIcon /> : <LightModeIcon />}
           </IconButton>
         </Box>

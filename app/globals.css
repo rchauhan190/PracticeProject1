@@ -5,6 +5,16 @@
   --table-hover: #e0e0e0;
 }
 
+@font-face {
+  font-family: 'Greycliff CF';
+  src: url('/fonts/GreycliffCF-Regular.woff2') format('woff2'),
+       url('/fonts/GreycliffCF-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
